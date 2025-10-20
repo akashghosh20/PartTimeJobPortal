@@ -7,12 +7,16 @@ import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from '@/utils/constant';
 import { setSingleJob } from '@/redux/jobSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
+import SubscriptionPopup from './SubscriptionPopup';
 
 const JobDescription = () => {
     const {singleJob} = useSelector(store => store.job);
     const {user} = useSelector(store=>store.auth);
     const isIntiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
     const [isApplied, setIsApplied] = useState(isIntiallyApplied);
+    const [showSubscriptionPopup, setShowSubscriptionPopup] = useState(false);
+    const [subscriptionReason, setSubscriptionReason] = useState('');
+    const [requiresPayment, setRequiresPayment] = useState(false);
 
     const params = useParams();
     const jobId = params.id;
@@ -27,11 +31,18 @@ const JobDescription = () => {
                 const updatedSingleJob = {...singleJob, applications:[...singleJob.applications,{applicant:user?._id}]}
                 dispatch(setSingleJob(updatedSingleJob)); // helps us to real time UI update
                 toast.success(res.data.message);
-
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            
+            // Check if it's a subscription-related error
+            if (error.response?.data?.requiresSubscription || error.response?.data?.requiresPayment) {
+                setSubscriptionReason(error.response.data.message);
+                setRequiresPayment(error.response.data.requiresPayment || false);
+                setShowSubscriptionPopup(true);
+            } else {
+                toast.error(error.response.data.message);
+            }
         }
     }
 
@@ -78,6 +89,13 @@ const JobDescription = () => {
                 <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal text-gray-800'>{singleJob?.applications?.length}</span></h1>
                 <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal text-gray-800'>{singleJob?.createdAt.split("T")[0]}</span></h1>
             </div>
+            
+            <SubscriptionPopup 
+                open={showSubscriptionPopup}
+                setOpen={setShowSubscriptionPopup}
+                reason={subscriptionReason}
+                requiresPayment={requiresPayment}
+            />
         </div>
     )
 }

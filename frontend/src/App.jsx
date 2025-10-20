@@ -1,4 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { HelmetProvider } from 'react-helmet-async'
+import store from './redux/store'
+import { ThemeProvider } from './contexts/ThemeContext'
+import { LanguageProvider } from './contexts/LanguageContext'
 import Navbar from './components/shared/Navbar'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
@@ -13,7 +18,13 @@ import CompanySetup from './components/admin/CompanySetup'
 import AdminJobs from "./components/admin/AdminJobs";
 import PostJob from './components/admin/PostJob'
 import Applicants from './components/admin/Applicants'
+import PaymentManagement from './components/admin/PaymentManagement'
 import ProtectedRoute from './components/admin/ProtectedRoute'
+import AboutUs from './components/pages/AboutUs'
+import Contact from './components/pages/Contact'
+import TermsAndConditions from './components/pages/TermsAndConditions'
+import PrivacyPolicy from './components/pages/PrivacyPolicy'
+import Sitemap from './components/pages/Sitemap'
 
 
 const appRouter = createBrowserRouter([
@@ -70,14 +81,47 @@ const appRouter = createBrowserRouter([
     path:"/admin/jobs/:id/applicants",
     element:<ProtectedRoute><Applicants/></ProtectedRoute> 
   },
+  {
+    path:"/admin/payments",
+    element:<ProtectedRoute><PaymentManagement/></ProtectedRoute> 
+  },
+  // Public pages
+  {
+    path: "/about",
+    element: <AboutUs />
+  },
+  {
+    path: "/contact",
+    element: <Contact />
+  },
+  {
+    path: "/terms",
+    element: <TermsAndConditions />
+  },
+  {
+    path: "/privacy",
+    element: <PrivacyPolicy />
+  },
+  {
+    path: "/sitemap",
+    element: <Sitemap />
+  },
 
 ])
 function App() {
 
   return (
-    <div>
-      <RouterProvider router={appRouter} />
-    </div>
+    <HelmetProvider>
+      <Provider store={store}>
+        <ThemeProvider>
+          <LanguageProvider>
+            <div>
+              <RouterProvider router={appRouter} />
+            </div>
+          </LanguageProvider>
+        </ThemeProvider>
+      </Provider>
+    </HelmetProvider>
   )
 }
 

@@ -34,5 +34,17 @@ const userSchema = new mongoose.Schema({
             default:""
         }
     },
+    balance:{
+        type:Number,
+        default:0
+    },
+    subscription:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Subscription'
+    },
+    isSubscribed:{
+        type:Boolean,
+        default:false
+    },
 },{timestamps:true});
 export const User = mongoose.model('User', userSchema);

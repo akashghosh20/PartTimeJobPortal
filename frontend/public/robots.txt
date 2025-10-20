@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://jobportal.com/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /api/
+
+# Allow important pages
+Allow: /about
+Allow: /contact
+Allow: /terms
+Allow: /privacy
+Allow: /sitemap
+Allow: /jobs
+Allow: /browse
+
+# Crawl delay
+Crawl-delay: 1
