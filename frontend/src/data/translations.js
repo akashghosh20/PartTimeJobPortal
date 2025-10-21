@@ -34,6 +34,39 @@ export const translations = {
             english: "English",
             bangla: "বাংলা",
             arabic: "العربية"
+        },
+        // Newsletter
+        newsletter: {
+            subscribeSuccess: "Successfully subscribed to our newsletter!",
+            subscribeError: "Error subscribing to newsletter",
+            emailPlaceholder: "Enter your email",
+            subscribe: "Subscribe",
+            unsubscribe: "Unsubscribe"
+        },
+        // Common
+        common: {
+            loading: "Loading...",
+            error: "Error",
+            success: "Success",
+            cancel: "Cancel",
+            save: "Save",
+            edit: "Edit",
+            delete: "Delete",
+            view: "View",
+            back: "Back",
+            next: "Next",
+            previous: "Previous",
+            close: "Close",
+            open: "Open",
+            search: "Search",
+            filter: "Filter",
+            sort: "Sort",
+            clear: "Clear",
+            apply: "Apply",
+            submit: "Submit",
+            confirm: "Confirm",
+            yes: "Yes",
+            no: "No"
         }
     },
     bn: {
